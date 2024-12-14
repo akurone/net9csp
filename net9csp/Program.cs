@@ -33,5 +33,5 @@ static void ConfigureCSP(CspBuilder x)
 {
   _ = x.AddObjectSrc().None();
   _ = x.AddBlockAllMixedContent();
-  _ = x.AddScriptSrc().Self().WasmUnsafeEval();
+  _ = x.AddScriptSrc().Self().WasmUnsafeEval().WithHash256("vlN1CPb7yCrmpLSNM/W73E5scOnXpKRhURuKb5W+3B0=");
 }

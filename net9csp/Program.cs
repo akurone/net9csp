@@ -1,4 +1,3 @@
-using net9csp.Client.Pages;
 using net9csp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,15 +11,16 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseWebAssemblyDebugging();
+  app.UseWebAssemblyDebugging();
 }
 else
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+  app.UseExceptionHandler("/Error", createScopeForErrors: true);
 }
 
 
 app.UseAntiforgery();
+app.UseSecurityHeaders(new HeaderPolicyCollection().AddContentSecurityPolicy(ConfigureCSP));
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
@@ -28,3 +28,10 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(net9csp.Client._Imports).Assembly);
 
 app.Run();
+
+static void ConfigureCSP(CspBuilder x)
+{
+  _ = x.AddObjectSrc().None();
+  _ = x.AddBlockAllMixedContent();
+  _ = x.AddScriptSrc().Self().WasmUnsafeEval();
+}
